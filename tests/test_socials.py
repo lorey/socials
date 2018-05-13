@@ -7,7 +7,7 @@ import pytest
 
 from click.testing import CliRunner
 
-from socials import socials
+import socials
 from socials import cli
 
 
@@ -36,3 +36,16 @@ def test_command_line_interface():
     help_result = runner.invoke(cli.main, ['--help'])
     assert help_result.exit_code == 0
     assert '--help  Show this message and exit.' in help_result.output
+
+
+def test_extract():
+    """Test the extract method."""
+    urls = [
+        'http://google.de',
+        'http://facebook.com',
+        'http://facebook.com/peterparker',
+    ]
+    matches = socials.extract(urls)
+    assert 'facebook' in matches
+    assert matches['facebook'][0] == urls[2]
+    assert len(matches['facebook']) == 1
