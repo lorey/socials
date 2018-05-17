@@ -3,17 +3,28 @@
 """Main module."""
 import re
 
+FACEBOOK_URL_REGEXS = [
+    'http(s)?://(www\.)?(facebook|fb)\.com/[A-z0-9_\-\.]+/?'
+]
+
+TWITTER_URL_REGEXS = [
+    'http(s)?://(.*\.)?twitter\.com\/[A-z0-9_]+/?'
+]
+
+LINKEDIN_URL_REGEXS = [
+    'http(s)?://([\w]+\.)?linkedin\.com/in/(A-z0-9_-)+/?',
+    'http(s)?://([\w]+\.)?linkedin\.com/pub/[A-z0-9_-]+(\/[A-z 0-9]+){3}/?'
+]
+
+GITHUB_URL_REGEXS = [
+    'http(s)?://(www\.)?github\.com/[A-z0-9_-]+/?',
+]
+
 PATTERNS = {
-    'facebook': [
-        'http(s)?://(www\.)?(facebook|fb)\.com/[A-z0-9_\-\.]+/?'
-    ],
-    'twitter': [
-        'http(s)?://(.*\.)?twitter\.com\/[A-z0-9_]+/?'
-    ],
-    'linkedin': [
-        'http(s)?://([\w]+\.)?linkedin\.com/in/(A-z0-9_-)\/?',
-        'http(s)?://([\w]+\.)?linkedin\.com/pub/[A-z0-9_-]+(\/[A-z 0-9]+){3}/?'
-    ],
+    'facebook': FACEBOOK_URL_REGEXS,
+    'twitter': TWITTER_URL_REGEXS,
+    'linkedin': LINKEDIN_URL_REGEXS,
+    'github': GITHUB_URL_REGEXS,
 }
 
 
