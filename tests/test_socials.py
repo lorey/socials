@@ -45,7 +45,8 @@ def test_extract():
         'http://facebook.com',
         'http://facebook.com/peterparker',
     ]
-    matches = socials.extract(urls)
+    extraction = socials.extract(urls)
+    matches = extraction.get_matches_per_platform()
     assert 'facebook' in matches
     assert matches['facebook'][0] == urls[2]
     assert len(matches['facebook']) == 1

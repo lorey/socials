@@ -9,4 +9,4 @@ __version__ = '0.1.0'
 
 
 def extract(urls):
-    return Extraction(urls).get_matches_per_platform()
+    return Extraction(urls)
