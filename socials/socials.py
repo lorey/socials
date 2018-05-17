@@ -3,6 +3,11 @@
 """Main module."""
 import re
 
+PLATFORM_FACEBOOK = 'facebook'
+PLATFORM_TWITTER = 'twitter'
+PLATFORM_LINKEDIN = 'linkedin'
+PLATFORM_GITHUB = 'github'
+
 FACEBOOK_URL_REGEXS = [
     'http(s)?://(www\.)?(facebook|fb)\.com/[A-z0-9_\-\.]+/?'
 ]
@@ -21,10 +26,10 @@ GITHUB_URL_REGEXS = [
 ]
 
 PATTERNS = {
-    'facebook': FACEBOOK_URL_REGEXS,
-    'twitter': TWITTER_URL_REGEXS,
-    'linkedin': LINKEDIN_URL_REGEXS,
-    'github': GITHUB_URL_REGEXS,
+    PLATFORM_FACEBOOK: FACEBOOK_URL_REGEXS,
+    PLATFORM_TWITTER: TWITTER_URL_REGEXS,
+    PLATFORM_LINKEDIN: LINKEDIN_URL_REGEXS,
+    PLATFORM_GITHUB: GITHUB_URL_REGEXS,
 }
 
 
@@ -53,11 +58,23 @@ def extract_matches_per_platform(urls):
     """
     matches = {}
     for url in urls:
-        for plattform in PATTERNS:
-            is_match = any(re.match(p, url) for p in PATTERNS[plattform])
-            if is_match:
-                if plattform not in matches:
-                    matches[plattform] = []
-                matches[plattform].append(url)
-
+        platform = get_platform(url)
+        if platform:
+            if platform not in matches:
+                matches[platform] = []
+            matches[platform].append(url)
     return matches
+
+
+def get_platform(url):
+    for platform in PATTERNS:
+        is_match = is_platform(url, platform)
+        if is_match:
+            return platform
+    return None
+
+
+def is_platform(url, platform):
+    if platform not in PATTERNS:
+        raise RuntimeError('Unknown platform, expected one of %s' % PATTERNS.keys())
+    return any(re.match(p, url) for p in PATTERNS[platform])
