@@ -28,6 +28,14 @@ Features
 
 * TODO
 
+Development
+-----------
+
+Create virtual envirenment `venv` with `virtualenv -p /usr/bin/python3 venv`.
+Activate the environment with `source venv/bin/activate`.
+Install the development requirements with `pip install -r requirements-dev.txt`.
+Run the tests: `tox` or `python setup.py test`
+
 Credits
 -------
 
