@@ -30,6 +30,17 @@ Features
 * Detect and extract URLs of social accounts: throw in URLs, get back URLs of social media profiles by type.
 * Currently supports Facebook, Twitter, LinkedIn, and GitHub.
 
+Usage
+-----
+
+Install it with ``pip install socials`` and use it as follows:
+
+.. code-block:: python
+
+    >>> urls = ['https://facebook.com/peterparker', 'https://techcrunch.com', 'https://github.com/lorey']
+    >>> socials.extract().get_matches_per_platform()
+    {'github': ['https://github.com/lorey'], 'facebook': ['https://facebook.com/peterparker']}
+
 Development
 -----------
 
