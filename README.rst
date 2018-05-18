@@ -21,6 +21,7 @@ Social Account Detection and Extraction for Python
 
 * Free software: GNU General Public License v3
 * Documentation: https://socials.readthedocs.io.
+* Source: https://github.com/lorey/socials
 
 
 Features
@@ -35,7 +36,7 @@ Development
 Create virtual envirenment ``venv`` with ``virtualenv -p /usr/bin/python3 venv``.
 Activate the environment with ``source venv/bin/activate``.
 Install the development requirements with ``pip install -r requirements-dev.txt``.
-Run the tests: `tox` or ``python setup.py test``
+Run the tests: ``tox`` or ``python setup.py test``
 
 Credits
 -------
