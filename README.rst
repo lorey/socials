@@ -16,7 +16,7 @@ Socials
 
 
 
-Social Account Detection for Python
+Social Account Detection and Extraction for Python
 
 
 * Free software: GNU General Public License v3
@@ -26,15 +26,16 @@ Social Account Detection for Python
 Features
 --------
 
-* TODO
+* Detect and extract URLs of social accounts: throw in URLs, get back URLs of social media profiles by type.
+* Currently supports Facebook, Twitter, LinkedIn, and GitHub.
 
 Development
 -----------
 
-Create virtual envirenment `venv` with `virtualenv -p /usr/bin/python3 venv`.
-Activate the environment with `source venv/bin/activate`.
-Install the development requirements with `pip install -r requirements-dev.txt`.
-Run the tests: `tox` or `python setup.py test`
+Create virtual envirenment ``venv`` with ``virtualenv -p /usr/bin/python3 venv``.
+Activate the environment with ``source venv/bin/activate``.
+Install the development requirements with ``pip install -r requirements-dev.txt``.
+Run the tests: `tox` or ``python setup.py test``
 
 Credits
 -------
