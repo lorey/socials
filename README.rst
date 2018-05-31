@@ -43,6 +43,10 @@ Install it with ``pip install socials`` and use it as follows:
     >>> socials.extract(hrefs).get_matches_for_platform('github')
     ['https://github.com/lorey']
 
+Read more about `usage in our documentation`_.
+
+.. _usage in our documentation: https://socials.readthedocs.io/en/latest/usage.html
+
 Development
 -----------
 
