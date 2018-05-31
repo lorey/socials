@@ -28,7 +28,7 @@ Features
 --------
 
 * Detect and extract URLs of social accounts: throw in URLs, get back URLs of social media profiles by type.
-* Currently supports Facebook, Twitter, LinkedIn, and GitHub.
+* Currently supports Facebook, Twitter, LinkedIn, GitHub, and Emails.
 
 Usage
 -----

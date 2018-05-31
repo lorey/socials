@@ -44,9 +44,16 @@ def test_extract():
         'http://google.de',
         'http://facebook.com',
         'http://facebook.com/peterparker',
+        'mailto:bill@microsoft.com',
+        'steve@microsoft.com',
     ]
     extraction = socials.extract(urls)
     matches = extraction.get_matches_per_platform()
     assert 'facebook' in matches
     assert matches['facebook'][0] == urls[2]
     assert len(matches['facebook']) == 1
+
+    assert 'email' in matches
+    assert len(matches['email']) == 2
+    assert 'bill@microsoft.com' in matches['email']
+    assert 'steve@microsoft.com' in matches['email']
