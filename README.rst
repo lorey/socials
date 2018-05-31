@@ -37,9 +37,11 @@ Install it with ``pip install socials`` and use it as follows:
 
 .. code-block:: python
 
-    >>> urls = ['https://facebook.com/peterparker', 'https://techcrunch.com', 'https://github.com/lorey']
-    >>> socials.extract().get_matches_per_platform()
+    >>> hrefs = ['https://facebook.com/peterparker', 'https://techcrunch.com', 'https://github.com/lorey']
+    >>> socials.extract(hrefs).get_matches_per_platform()
     {'github': ['https://github.com/lorey'], 'facebook': ['https://facebook.com/peterparker']}
+    >>> socials.extract(hrefs).get_matches_for_platform('github')
+    ['https://github.com/lorey']
 
 Development
 -----------

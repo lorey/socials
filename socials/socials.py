@@ -56,9 +56,18 @@ class Extraction(object):
         Get lists of profiles keyed by platform name.
 
         :return: a dictionary with the platform as a key,
-            and a list of the platform's profiles as values
+            and a list of the platform's profiles as values.
         """
         return extract_matches_per_platform(self._hrefs)
+
+    def get_matches_for_platform(self, platform):
+        """
+        Find all matches for a specific platform.
+
+        :param platform: platform to search for.
+        :return: list of matches.
+        """
+        return extract_matches_for_platform(platform, self._hrefs)
 
 
 def extract_matches_per_platform(hrefs):
@@ -70,13 +79,18 @@ def extract_matches_per_platform(hrefs):
         and a list of the platform's profiles as values.
     """
     matches = {}
+    for platform in PATTERNS.keys():
+        platform_matches = extract_matches_for_platform(platform, hrefs)
+        matches[platform] = platform_matches
+    return matches
+
+
+def extract_matches_for_platform(platform, hrefs):
+    matches = []
     for href in hrefs:
-        platform = get_platform(href)
-        if platform:
-            if platform not in matches:
-                matches[platform] = []
+        if platform == get_platform(href):
             result = _clean_href(href, platform)
-            matches[platform].append(result)
+            matches.append(result)
     return matches
 
 

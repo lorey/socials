@@ -5,7 +5,8 @@ History
 0.1.1
 -----
 
-* Support for email address extraction.
+* Email address extraction.
+* Extraction of specific platforms.
 
 0.1.0 (2018-05-18)
 ------------------
