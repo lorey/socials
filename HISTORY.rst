@@ -2,8 +2,8 @@
 History
 =======
 
-0.2.0
------
+0.2.0 (2018-05-31)
+------------------
 
 * Email address extraction.
 * Extraction of specific platforms.
