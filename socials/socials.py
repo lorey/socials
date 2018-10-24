@@ -19,10 +19,10 @@ GITHUB_URL_REGEXS = [
 
 LINKEDIN_URL_REGEXS = [
     # private
-    'http(s)?://([\w]+\.)?linkedin\.com/in/(A-z0-9_-)+/?',
+    'http(s)?://([\w]+\.)?linkedin\.com/in/[A-z0-9_-]+/?',
     'http(s)?://([\w]+\.)?linkedin\.com/pub/[A-z0-9_-]+(\/[A-z 0-9]+){3}/?',
     # companies
-    'http(s)?://(www\.)?linkedin\.com/company/(A-z0-9_-)+/?',
+    'http(s)?://(www\.)?linkedin\.com/company/[A-z0-9_-]+/?',
 ]
 
 TWITTER_URL_REGEXS = [
