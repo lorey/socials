@@ -44,10 +44,15 @@ def test_extract():
         'http://google.de',
         'http://facebook.com',
         'http://facebook.com/peterparker',
+        'http://facebook.com/peter[parker',  # Invalid character
         'mailto:bill@microsoft.com',
         'steve@microsoft.com',
         'https://www.linkedin.com/company/google/',
+        'https://www.linkedin.com/comp^any/google/',  # Invalid character
+        'http://www.twitter.com/Some_Company/',
+        'http://www.twitter.com/Some_\\Company',  # Invalid character
         'https://www.instagram.com/instagram/',
+        'https://www.instagram.com/instag-ram/',  # Invalid character
         'http://instagr.am/instagram',
     ]
     extraction = socials.extract(urls)
@@ -64,6 +69,10 @@ def test_extract():
     assert 'linkedin' in matches
     assert len(matches['linkedin']) == 1
     assert matches['linkedin'][0] == 'https://www.linkedin.com/company/google/'
+
+    assert 'twitter' in matches
+    assert len(matches['twitter']) == 1
+    assert matches['twitter'][0] == 'http://www.twitter.com/Some_Company/'
 
     assert 'instagram' in matches
     assert len(matches['instagram']) == 2
