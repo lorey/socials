@@ -7,6 +7,7 @@ PLATFORM_FACEBOOK = 'facebook'
 PLATFORM_GITHUB = 'github'
 PLATFORM_LINKEDIN = 'linkedin'
 PLATFORM_TWITTER = 'twitter'
+PLATFORM_INSTAGRAM = 'instagram'
 PLATFORM_EMAIL = 'email'
 
 FACEBOOK_URL_REGEXS = [
@@ -29,6 +30,11 @@ TWITTER_URL_REGEXS = [
     'http(s)?://(.*\.)?twitter\.com\/[A-z0-9_]+/?',
 ]
 
+INSTAGRAM_URL_REGEXS = [
+    'http(s)?://(www\.)?instagram\.com/[A-Za-z0-9_.]+/?',
+    'http(s)?://(www\.)?instagr\.am/[A-Za-z0-9_.]+/?',
+]
+
 EMAIL_REGEX = '(mailto:)?[\w\.-]+@[\w\.-]+'
 
 
@@ -37,6 +43,7 @@ PATTERNS = {
     PLATFORM_TWITTER: TWITTER_URL_REGEXS,
     PLATFORM_LINKEDIN: LINKEDIN_URL_REGEXS,
     PLATFORM_GITHUB: GITHUB_URL_REGEXS,
+    PLATFORM_INSTAGRAM: INSTAGRAM_URL_REGEXS,
     PLATFORM_EMAIL: [EMAIL_REGEX],
 }
 

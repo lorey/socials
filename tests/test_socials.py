@@ -47,6 +47,8 @@ def test_extract():
         'mailto:bill@microsoft.com',
         'steve@microsoft.com',
         'https://www.linkedin.com/company/google/',
+        'https://www.instagram.com/instagram/',
+        'http://instagr.am/instagram',
     ]
     extraction = socials.extract(urls)
     matches = extraction.get_matches_per_platform()
@@ -62,3 +64,8 @@ def test_extract():
     assert 'linkedin' in matches
     assert len(matches['linkedin']) == 1
     assert matches['linkedin'][0] == 'https://www.linkedin.com/company/google/'
+
+    assert 'instagram' in matches
+    assert len(matches['instagram']) == 2
+    assert matches['instagram'][0] == 'https://www.instagram.com/instagram/'
+    assert matches['instagram'][1] == 'http://instagr.am/instagram'
