@@ -11,31 +11,31 @@ PLATFORM_INSTAGRAM = 'instagram'
 PLATFORM_EMAIL = 'email'
 
 FACEBOOK_URL_REGEXS = [
-    'http(s)?://(www\.)?(facebook|fb)\.com/[A-z0-9_\-\.]+/?',
+    r'^http(s)?://(www\.)?(facebook|fb)\.com/[A-Za-z0-9_\-\.]+/?$',
 ]
 
 GITHUB_URL_REGEXS = [
-    'http(s)?://(www\.)?github\.com/[A-z0-9_-]+/?',
+    r'^http(s)?://(www\.)?github\.com/[A-Za-z0-9_-]+/?$',
 ]
 
 LINKEDIN_URL_REGEXS = [
     # private
-    'http(s)?://([\w]+\.)?linkedin\.com/in/[A-z0-9_-]+/?',
-    'http(s)?://([\w]+\.)?linkedin\.com/pub/[A-z0-9_-]+(\/[A-z 0-9]+){3}/?',
+    r'^http(s)?://([\w]+\.)?linkedin\.com/in/[A-Za-z0-9_-]+/?$',
+    r'^http(s)?://([\w]+\.)?linkedin\.com/pub/[A-Za-z0-9_-]+(\/[A-z 0-9]+){3}/?$',
     # companies
-    'http(s)?://(www\.)?linkedin\.com/company/[A-z0-9_-]+/?',
+    r'^http(s)?://(www\.)?linkedin\.com/company/[A-Za-z0-9_-]+/?$',
 ]
 
 TWITTER_URL_REGEXS = [
-    'http(s)?://(.*\.)?twitter\.com\/[A-z0-9_]+/?',
+    r'^http(s)?://(.*\.)?twitter\.com\/[A-Za-z0-9_]+/?$',
 ]
 
 INSTAGRAM_URL_REGEXS = [
-    'http(s)?://(www\.)?instagram\.com/[A-Za-z0-9_.]+/?',
-    'http(s)?://(www\.)?instagr\.am/[A-Za-z0-9_.]+/?',
+    r'^http(s)?://(www\.)?instagram\.com/[A-Za-z0-9_.]+/?$',
+    r'^http(s)?://(www\.)?instagr\.am/[A-Za-z0-9_.]+/?$',
 ]
 
-EMAIL_REGEX = '(mailto:)?[\w\.-]+@[\w\.-]+'
+EMAIL_REGEX = r'^(mailto:)?[\w\.-]+@[\w\.-]+$'
 
 
 PATTERNS = {
