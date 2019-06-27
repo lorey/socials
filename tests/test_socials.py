@@ -45,6 +45,7 @@ def test_extract():
         'http://facebook.com',
         'http://facebook.com/peterparker',
         'http://facebook.com/peter[parker',  # Invalid character
+        'https://www.facebook.com/profile.php?id=4',
         'mailto:bill@microsoft.com',
         'steve@microsoft.com',
         'https://www.linkedin.com/company/google/',
@@ -58,8 +59,9 @@ def test_extract():
     extraction = socials.extract(urls)
     matches = extraction.get_matches_per_platform()
     assert 'facebook' in matches
-    assert matches['facebook'][0] == urls[2]
-    assert len(matches['facebook']) == 1
+    assert len(matches['facebook']) == 2
+    assert 'http://facebook.com/peterparker' in matches['facebook']
+    assert 'https://www.facebook.com/profile.php?id=4' in matches['facebook']
 
     assert 'email' in matches
     assert len(matches['email']) == 2
@@ -68,13 +70,13 @@ def test_extract():
 
     assert 'linkedin' in matches
     assert len(matches['linkedin']) == 1
-    assert matches['linkedin'][0] == 'https://www.linkedin.com/company/google/'
+    assert 'https://www.linkedin.com/company/google/' in matches['linkedin']
 
     assert 'twitter' in matches
     assert len(matches['twitter']) == 1
-    assert matches['twitter'][0] == 'http://www.twitter.com/Some_Company/'
+    assert 'http://www.twitter.com/Some_Company/' in matches['twitter']
 
     assert 'instagram' in matches
     assert len(matches['instagram']) == 2
-    assert matches['instagram'][0] == 'https://www.instagram.com/instagram/'
-    assert matches['instagram'][1] == 'http://instagr.am/instagram'
+    assert 'https://www.instagram.com/instagram/' in matches['instagram']
+    assert 'http://instagr.am/instagram' in matches['instagram']
