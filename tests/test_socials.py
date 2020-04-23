@@ -55,6 +55,10 @@ def test_extract():
         'https://www.instagram.com/instagram/',
         'https://www.instagram.com/instag-ram/',  # Invalid character
         'http://instagr.am/instagram',
+        'http://youtube.com/this/is/too/long',
+        'http://www.youtube.com/user/Some_1',
+        'http://youtube.com/c/your-custom-name',
+        'http://youtube.com/your.custom.name',
     ]
     extraction = socials.extract(urls)
     matches = extraction.get_matches_per_platform()
@@ -80,3 +84,9 @@ def test_extract():
     assert len(matches['instagram']) == 2
     assert 'https://www.instagram.com/instagram/' in matches['instagram']
     assert 'http://instagr.am/instagram' in matches['instagram']
+
+    assert 'youtube' in matches
+    assert len(matches['youtube']) == 3
+    assert 'http://www.youtube.com/user/Some_1' in matches['youtube']
+    assert 'http://youtube.com/c/your-custom-name' in matches['youtube']
+    assert 'http://youtube.com/your.custom.name' in matches['youtube']
