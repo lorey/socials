@@ -47,6 +47,14 @@ Read more about `usage in our documentation`_.
 
 .. _usage in our documentation: https://socials.readthedocs.io/en/latest/usage.html
 
+Socials API
+--------
+There's also `an API called Socials API`_ that allows you to use the functionality via REST.
+You can use a `free online version`_, try it in the browser, or deploy it yourself.
+
+.. _an API called Socials API: https://github.com/lorey/socials-api
+.. _free online version: https://socials.karllorey.com
+
 Development
 -----------
 
