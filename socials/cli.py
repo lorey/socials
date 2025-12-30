@@ -51,7 +51,9 @@ def extract(
     """Extract social media URLs from input."""
     if file is None:
         if sys.stdin.isatty():
-            typer.echo("Error: No input provided. Pipe URLs or specify a file.", err=True)
+            typer.echo(
+                "Error: No input provided. Pipe URLs or specify a file.", err=True
+            )
             raise typer.Exit(1)
         lines = sys.stdin.read().strip().split("\n")
     else:

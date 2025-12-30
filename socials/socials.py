@@ -1,49 +1,48 @@
-# -*- coding: utf-8 -*-
-
 """Main module."""
+
 import re
 
-PLATFORM_FACEBOOK = 'facebook'
-PLATFORM_GITHUB = 'github'
-PLATFORM_LINKEDIN = 'linkedin'
-PLATFORM_TWITTER = 'twitter'
-PLATFORM_INSTAGRAM = 'instagram'
-PLATFORM_YOUTUBE = 'youtube'
-PLATFORM_EMAIL = 'email'
+PLATFORM_FACEBOOK = "facebook"
+PLATFORM_GITHUB = "github"
+PLATFORM_LINKEDIN = "linkedin"
+PLATFORM_TWITTER = "twitter"
+PLATFORM_INSTAGRAM = "instagram"
+PLATFORM_YOUTUBE = "youtube"
+PLATFORM_EMAIL = "email"
 
 FACEBOOK_URL_REGEXS = [
-    r'^http(s)?://(www\.)?(facebook|fb)\.com/[A-Za-z0-9_\-\.]+/?$',
-    r'^http(s)?://(www\.)?(facebook|fb)\.com/profile\.php\?id=\d+$',
+    r"^http(s)?://(www\.)?(facebook|fb)\.com/[A-Za-z0-9_\-\.]+/?$",
+    r"^http(s)?://(www\.)?(facebook|fb)\.com/profile\.php\?id=\d+$",
 ]
 
 GITHUB_URL_REGEXS = [
-    r'^http(s)?://(www\.)?github\.com/[A-Za-z0-9_-]+/?$',
+    r"^http(s)?://(www\.)?github\.com/[A-Za-z0-9_-]+/?$",
 ]
 
 LINKEDIN_URL_REGEXS = [
     # private
-    r'^http(s)?://([\w]+\.)?linkedin\.com/in/[A-Za-z0-9_-]+/?$',
-    r'^http(s)?://([\w]+\.)?linkedin\.com/pub/[A-Za-z0-9_-]+(\/[A-z 0-9]+){3}/?$',
+    r"^http(s)?://([\w]+\.)?linkedin\.com/in/[A-Za-z0-9_-]+/?$",
+    r"^http(s)?://([\w]+\.)?linkedin\.com/pub/[A-Za-z0-9_-]+(\/[A-z 0-9]+){3}/?$",
     # companies
-    r'^http(s)?://(www\.)?linkedin\.com/company/[A-Za-z0-9_-]+/?$',
+    r"^http(s)?://(www\.)?linkedin\.com/company/[A-Za-z0-9_-]+/?$",
 ]
 
 TWITTER_URL_REGEXS = [
-    r'^http(s)?://(.*\.)?twitter\.com\/[A-Za-z0-9_]+/?$',
+    r"^http(s)?://(.*\.)?twitter\.com\/[A-Za-z0-9_]+/?$",
 ]
 
 INSTAGRAM_URL_REGEXS = [
-    r'^http(s)?://(www\.)?instagram\.com/[A-Za-z0-9_.]+/?$',
-    r'^http(s)?://(www\.)?instagr\.am/[A-Za-z0-9_.]+/?$',
+    r"^http(s)?://(www\.)?instagram\.com/[A-Za-z0-9_.]+/?$",
+    r"^http(s)?://(www\.)?instagr\.am/[A-Za-z0-9_.]+/?$",
 ]
 
 YOUTUBE_URL_REGEXS = [
-    r'^http(s)?://(www\.)?youtube\.com/user/[A-z0-9_.-]+/?$',
-    r'^http(s)?://(www\.)?youtube\.com/c/[A-z0-9_.-]+/?$',
-    r'^http(s)?://(www\.)?youtube\.com/[A-z0-9_.-]+/?$',
+    r"^http(s)?://(www\.)?youtube\.com/user/[A-z0-9_.-]+/?$",
+    r"^http(s)?://(www\.)?youtube\.com/c/[A-z0-9_.-]+/?$",
+    r"^http(s)?://(www\.)?youtube\.com/[A-z0-9_.-]+/?$",
 ]
 
-EMAIL_REGEX = r'^(mailto:)?[\w\.-]+@[\w\.-]+$'
+EMAIL_REGEX = r"^(mailto:)?[\w\.-]+@[\w\.-]+$"
 
 
 PATTERNS = {
@@ -56,10 +55,12 @@ PATTERNS = {
     PLATFORM_EMAIL: [EMAIL_REGEX],
 }
 
-ERROR_MSG_UNKNOWN_PLATFORM = 'Unknown platform, expected one of %s' % PATTERNS.keys()
+ERROR_MSG_UNKNOWN_PLATFORM = (
+    f"Unknown platform, expected one of {list(PATTERNS.keys())}"
+)
 
 
-class Extraction(object):
+class Extraction:
     """Extracted profiles."""
 
     _hrefs = None
@@ -134,7 +135,7 @@ def is_platform(href, platform):
 
 
 def clean_mailto(href):
-    return href.replace('mailto:', '')
+    return href.replace("mailto:", "")
 
 
 def get_cleaner(platform):
