@@ -1,41 +1,48 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 """Tests for `socials` package."""
 
-import pytest
-
-from click.testing import CliRunner
+from typer.testing import CliRunner
 
 import socials
-from socials import cli
+from socials.cli import app
 
 
-@pytest.fixture
-def response():
-    """Sample pytest fixture.
-
-    See more at: http://doc.pytest.org/en/latest/fixture.html
-    """
-    # import requests
-    # return requests.get('https://github.com/audreyr/cookiecutter-pypackage')
+runner = CliRunner()
 
 
-def test_content(response):
-    """Sample pytest test function with the pytest fixture as an argument."""
-    # from bs4 import BeautifulSoup
-    # assert 'GitHub' in BeautifulSoup(response.content).title.string
-
-
-def test_command_line_interface():
-    """Test the CLI."""
-    runner = CliRunner()
-    result = runner.invoke(cli.main)
+def test_cli_help():
+    """Test CLI help output."""
+    result = runner.invoke(app, ["--help"])
     assert result.exit_code == 0
-    assert 'socials.cli.main' in result.output
-    help_result = runner.invoke(cli.main, ['--help'])
-    assert help_result.exit_code == 0
-    assert '--help  Show this message and exit.' in help_result.output
+    assert "Extract social media profile URLs" in result.output
+
+
+def test_cli_version():
+    """Test CLI version output."""
+    result = runner.invoke(app, ["--version"])
+    assert result.exit_code == 0
+    assert "socials" in result.output
+
+
+def test_cli_check():
+    """Test CLI check command."""
+    result = runner.invoke(app, ["check", "https://github.com/lorey"])
+    assert result.exit_code == 0
+    assert "github" in result.output
+
+    result = runner.invoke(app, ["check", "https://example.com"])
+    assert result.exit_code == 1
+
+
+def test_cli_extract():
+    """Test CLI extract command."""
+    result = runner.invoke(
+        app,
+        ["extract"],
+        input="https://github.com/lorey\nhttps://twitter.com/karllorey\n",
+    )
+    assert result.exit_code == 0
+    assert "github" in result.output
+    assert "twitter" in result.output
 
 
 def test_extract():
