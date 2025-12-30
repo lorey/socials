@@ -1025,7 +1025,7 @@ wheels = [
 
 [[package]]
 name = "socials"
-version = "0.2.1.dev10+g23cd9aaff.d20251230"
+version = "0.2.1.dev11+g42fe29dd6.d20251230"
 source = { editable = "." }
 dependencies = [
     { name = "typer" },

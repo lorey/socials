@@ -1,6 +1,9 @@
 """Main module."""
 
+from __future__ import annotations
+
 import re
+from collections.abc import Callable
 
 PLATFORM_FACEBOOK = "facebook"
 PLATFORM_GITHUB = "github"
@@ -63,12 +66,12 @@ ERROR_MSG_UNKNOWN_PLATFORM = (
 class Extraction:
     """Extracted profiles."""
 
-    _hrefs = None
+    _hrefs: list[str]
 
-    def __init__(self, hrefs):
+    def __init__(self, hrefs: list[str]) -> None:
         self._hrefs = hrefs
 
-    def get_matches_per_platform(self):
+    def get_matches_per_platform(self) -> dict[str, list[str]]:
         """
         Get lists of profiles keyed by platform name.
 
@@ -77,7 +80,7 @@ class Extraction:
         """
         return extract_matches_per_platform(self._hrefs)
 
-    def get_matches_for_platform(self, platform):
+    def get_matches_for_platform(self, platform: str) -> list[str]:
         """
         Find all matches for a specific platform.
 
@@ -87,7 +90,7 @@ class Extraction:
         return extract_matches_for_platform(platform, self._hrefs)
 
 
-def extract_matches_per_platform(hrefs):
+def extract_matches_per_platform(hrefs: list[str]) -> dict[str, list[str]]:
     """
     Get lists of profiles keyed by platform name.
 
@@ -95,15 +98,15 @@ def extract_matches_per_platform(hrefs):
     :return: a dictionary with the platform as a key,
         and a list of the platform's profiles as values.
     """
-    matches = {}
-    for platform in PATTERNS.keys():
+    matches: dict[str, list[str]] = {}
+    for platform in PATTERNS:
         platform_matches = extract_matches_for_platform(platform, hrefs)
         matches[platform] = platform_matches
     return matches
 
 
-def extract_matches_for_platform(platform, hrefs):
-    matches = []
+def extract_matches_for_platform(platform: str, hrefs: list[str]) -> list[str]:
+    matches: list[str] = []
     for href in hrefs:
         if platform == get_platform(href):
             result = _clean_href(href, platform)
@@ -111,7 +114,7 @@ def extract_matches_for_platform(platform, hrefs):
     return matches
 
 
-def _clean_href(href, platform):
+def _clean_href(href: str, platform: str) -> str:
     """Cleans a href for a specific platform."""
     result = href
     cleaner = get_cleaner(platform)
@@ -120,7 +123,7 @@ def _clean_href(href, platform):
     return result
 
 
-def get_platform(href):
+def get_platform(href: str) -> str | None:
     for platform in PATTERNS:
         is_match = is_platform(href, platform)
         if is_match:
@@ -128,18 +131,18 @@ def get_platform(href):
     return None
 
 
-def is_platform(href, platform):
+def is_platform(href: str, platform: str) -> bool:
     if platform not in PATTERNS:
         raise RuntimeError(ERROR_MSG_UNKNOWN_PLATFORM)
     return any(re.match(p, href) for p in PATTERNS[platform])
 
 
-def clean_mailto(href):
+def clean_mailto(href: str) -> str:
     return href.replace("mailto:", "")
 
 
-def get_cleaner(platform):
-    cleaners = {
+def get_cleaner(platform: str) -> Callable[[str], str] | None:
+    cleaners: dict[str, Callable[[str], str]] = {
         PLATFORM_EMAIL: clean_mailto,
     }
 
