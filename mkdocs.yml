@@ -1,0 +1,19 @@
+site_name: Socials
+site_url: https://socials.readthedocs.io
+repo_url: https://github.com/lorey/socials
+repo_name: lorey/socials
+
+theme:
+  name: material
+  palette:
+    primary: indigo
+
+nav:
+  - Home: index.md
+  - CLI: cli.md
+  - API: api.md
+  - Changelog: changelog.md
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
