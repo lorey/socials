@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2025-12-31
+
+### Added
+
+- **Typed URL classes**: Parse URLs into typed objects like `GitHubRepoURL`, `TwitterProfileURL`, etc.
+- **Entity type detection**: Each URL now has an `entity_type` field (profile, repo, channel, company, email, phone)
+- **Hierarchy navigation**: `get_parent()`, `get_root()`, `get_ancestors()` methods for traversing URL hierarchies
+- **New extraction methods**: `extraction.all()`, `extraction.by_platform()`, `extraction.by_type()`
+- **Extractor class**: Create custom extractors with platform filtering and strict mode
+- **Strict mode**: Optionally raise `ParseError` for unrecognized URLs
+- **Protocol-based architecture**: `SocialsURL` and `PlatformParser` protocols for extensibility
+- **Phone number support**: Parse `tel:` URLs
+- **Pydantic models**: All URL types are immutable, hashable Pydantic models
+
+### Changed
+
+- Complete internal rewrite to typed architecture
+- `socials.parse()` now returns typed objects instead of strings
+- `socials.extract()` returns an `Extraction` object with new methods
+
+### Deprecated
+
+- `get_matches_per_platform()` - use `by_platform()` instead
+- `get_matches_for_platform()` - use `by_platform()[platform]` instead
+
 ## [0.3.0] - 2025-12-30
 
 ### Added
@@ -44,7 +69,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - First release on PyPI
 - Support for Facebook, Twitter, LinkedIn, GitHub detection
 
-[Unreleased]: https://github.com/lorey/socials/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/lorey/socials/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/lorey/socials/compare/v0.3.0...v1.0.0
 [0.3.0]: https://github.com/lorey/socials/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/lorey/socials/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/lorey/socials/releases/tag/v0.1.0
