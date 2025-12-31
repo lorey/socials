@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Protocol, runtime_checkable
+from typing import ClassVar, Protocol, runtime_checkable
 
 
 class ParseError(Exception):
@@ -46,7 +46,7 @@ class PlatformParser(Protocol):
     """Interface for platform-specific URL parsers."""
 
     platform: str
-    schemes: set[str]
+    schemes: ClassVar[set[str]]
 
     def handles_hostname(self, hostname: str) -> bool:
         """Check if this parser handles the given hostname."""

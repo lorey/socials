@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Union
+from typing import TYPE_CHECKING
 
 from socials.platforms.facebook import FacebookParser
 from socials.platforms.github import GitHubParser
@@ -12,20 +12,11 @@ from socials.platforms.misc import EmailParser, PhoneParser
 from socials.platforms.twitter import TwitterParser
 from socials.platforms.youtube import YouTubeParser
 
-# Type alias for all parser types
-Parser = Union[
-    GitHubParser,
-    TwitterParser,
-    LinkedInParser,
-    FacebookParser,
-    InstagramParser,
-    YouTubeParser,
-    EmailParser,
-    PhoneParser,
-]
+if TYPE_CHECKING:
+    from socials.protocols import PlatformParser
 
 # Default parsers by platform name
-DEFAULT_PARSERS: dict[str, Parser] = {
+DEFAULT_PARSERS: dict[str, PlatformParser] = {
     GitHubParser.platform: GitHubParser(),
     TwitterParser.platform: TwitterParser(),
     LinkedInParser.platform: LinkedInParser(),
