@@ -91,8 +91,7 @@ class Extraction:
     def __init__(self, hrefs: list[str]) -> None:
         """Initialize with list of hrefs to extract from."""
         warnings.warn(
-            "socials.socials.Extraction is deprecated. "
-            "Use socials.extract() instead.",
+            "socials.socials.Extraction is deprecated. Use socials.extract() instead.",
             DeprecationWarning,
             stacklevel=2,
         )
