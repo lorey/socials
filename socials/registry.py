@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import warnings
 from typing import TYPE_CHECKING
 
 from socials.platforms.base import extract_hostname, extract_scheme
@@ -11,7 +12,11 @@ if TYPE_CHECKING:
 
 
 class Registry:
-    """Registry that maps hostnames to platform parsers."""
+    """Registry that maps hostnames to platform parsers.
+
+    When multiple parsers could handle the same URL, the first registered
+    parser takes priority. This is a "first match wins" policy.
+    """
 
     def __init__(self, parsers: list[PlatformParser] | None = None) -> None:
         """Initialize registry with optional list of parsers.
@@ -20,15 +25,35 @@ class Registry:
             parsers: List of platform parsers to register.
 
         """
-        self._parsers: list[PlatformParser] = list(parsers) if parsers else []
+        self._parsers: list[PlatformParser] = []
+        if parsers:
+            for parser in parsers:
+                self.register(parser)
 
     def register(self, parser: PlatformParser) -> None:
         """Register a new parser.
+
+        If another parser already handles the same schemes, a warning is issued.
+        The first registered parser takes priority (first match wins).
 
         Args:
             parser: Parser to register.
 
         """
+        # Check for scheme overlap with existing parsers (ignore http/https since
+        # those are differentiated by hostname, not scheme)
+        dominated_schemes = {"http", "https"}
+        for existing in self._parsers:
+            overlap = (parser.schemes & existing.schemes) - dominated_schemes
+            if overlap:
+                warnings.warn(
+                    f"Parser '{parser.platform}' has overlapping schemes {overlap} "
+                    f"with existing parser '{existing.platform}'. "
+                    f"First registered parser ('{existing.platform}') takes priority.",
+                    stacklevel=2,
+                )
+                break  # Only warn once
+
         self._parsers.append(parser)
 
     def get_parser_for_url(self, url: str) -> PlatformParser | None:
