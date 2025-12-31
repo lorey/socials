@@ -183,8 +183,9 @@ Full docs at [socials.readthedocs.io](https://socials.readthedocs.io)
 
 ## Related
 
-[Socials API](https://github.com/lorey/socials-api) - REST API wrapper.
-[Free hosted version](https://socials.karllorey.com) available.
+- [Socials API](https://github.com/lorey/socials-api) - REST API wrapper. [Free hosted version](https://socials.karllorey.com) available.
+- [social-media-profiles-regexs](https://github.com/lorey/social-media-profiles-regexs) - Regular expressions for social media URLs.
+- [flutter_url_recognizer](https://github.com/dpajak99/flutter_url_recognizer) - Similar implementation for Flutter.
 
 ## License
 
