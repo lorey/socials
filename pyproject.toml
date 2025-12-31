@@ -80,9 +80,10 @@ ignore = [
 ]
 "socials/cli.py" = [
     "FBT001",  # typer requires boolean positional args
+    "UP045",   # Typer needs Optional[X] for Python 3.9 runtime evaluation
 ]
 "socials/platforms/*.py" = [
-    "UP007",   # Pydantic needs Optional[X] for Python 3.9 runtime evaluation
+    "UP045",   # Pydantic needs Optional[X] for Python 3.9 runtime evaluation
 ]
 
 [tool.ruff.lint.isort]

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import sys
+from typing import Optional
 
 import typer
 
@@ -27,7 +28,7 @@ def version_callback(value: bool) -> None:
 
 @app.callback()
 def main(
-    version: bool | None = typer.Option(
+    version: Optional[bool] = typer.Option(
         None,
         "--version",
         "-v",
@@ -41,11 +42,11 @@ def main(
 
 @app.command()
 def extract(
-    file: typer.FileText | None = typer.Argument(
+    file: Optional[typer.FileText] = typer.Argument(
         None,
         help="File containing URLs (one per line). Reads from stdin if not provided.",
     ),
-    platform: str | None = typer.Option(
+    platform: Optional[str] = typer.Option(
         None,
         "--platform",
         "-p",
