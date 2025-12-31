@@ -1,10 +1,26 @@
-"""Main module."""
+"""Legacy module for backwards compatibility.
+
+This module is deprecated. Please use the new API:
+
+    import socials
+
+    # New API
+    result = socials.parse(url)
+    extraction = socials.extract(urls)
+
+The old regex-based API is preserved here for backwards compatibility.
+"""
 
 from __future__ import annotations
 
 import re
-from collections.abc import Callable
+import warnings
+from typing import TYPE_CHECKING
 
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+# Platform constants (kept for backwards compatibility)
 PLATFORM_FACEBOOK = "facebook"
 PLATFORM_GITHUB = "github"
 PLATFORM_LINKEDIN = "linkedin"
@@ -13,6 +29,7 @@ PLATFORM_INSTAGRAM = "instagram"
 PLATFORM_YOUTUBE = "youtube"
 PLATFORM_EMAIL = "email"
 
+# Legacy regex patterns (kept for backwards compatibility)
 FACEBOOK_URL_REGEXS = [
     r"^http(s)?://(www\.)?(facebook|fb)\.com/[A-Za-z0-9_\-\.]+/?$",
     r"^http(s)?://(www\.)?(facebook|fb)\.com/profile\.php\?id=\d+$",
@@ -64,40 +81,34 @@ ERROR_MSG_UNKNOWN_PLATFORM = (
 
 
 class Extraction:
-    """Extracted profiles."""
+    """Extracted profiles (legacy class).
+
+    Deprecated: Use socials.extract() which returns the new Extraction class.
+    """
 
     _hrefs: list[str]
 
     def __init__(self, hrefs: list[str]) -> None:
+        """Initialize with list of hrefs to extract from."""
+        warnings.warn(
+            "socials.socials.Extraction is deprecated. "
+            "Use socials.extract() instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         self._hrefs = hrefs
 
     def get_matches_per_platform(self) -> dict[str, list[str]]:
-        """
-        Get lists of profiles keyed by platform name.
-
-        :return: a dictionary with the platform as a key,
-            and a list of the platform's profiles as values.
-        """
+        """Get lists of profiles keyed by platform name."""
         return extract_matches_per_platform(self._hrefs)
 
     def get_matches_for_platform(self, platform: str) -> list[str]:
-        """
-        Find all matches for a specific platform.
-
-        :param platform: platform to search for.
-        :return: list of matches.
-        """
+        """Find all matches for a specific platform."""
         return extract_matches_for_platform(platform, self._hrefs)
 
 
 def extract_matches_per_platform(hrefs: list[str]) -> dict[str, list[str]]:
-    """
-    Get lists of profiles keyed by platform name.
-
-    :param hrefs: hrefs to parse.
-    :return: a dictionary with the platform as a key,
-        and a list of the platform's profiles as values.
-    """
+    """Get lists of profiles keyed by platform name (legacy function)."""
     matches: dict[str, list[str]] = {}
     for platform in PATTERNS:
         platform_matches = extract_matches_for_platform(platform, hrefs)
@@ -106,6 +117,7 @@ def extract_matches_per_platform(hrefs: list[str]) -> dict[str, list[str]]:
 
 
 def extract_matches_for_platform(platform: str, hrefs: list[str]) -> list[str]:
+    """Find all matches for a specific platform (legacy function)."""
     matches: list[str] = []
     for href in hrefs:
         if platform == get_platform(href):
@@ -115,7 +127,7 @@ def extract_matches_for_platform(platform: str, hrefs: list[str]) -> list[str]:
 
 
 def _clean_href(href: str, platform: str) -> str:
-    """Cleans a href for a specific platform."""
+    """Clean a href for a specific platform."""
     result = href
     cleaner = get_cleaner(platform)
     if cleaner:
@@ -124,6 +136,7 @@ def _clean_href(href: str, platform: str) -> str:
 
 
 def get_platform(href: str) -> str | None:
+    """Get platform name for a URL (legacy function)."""
     for platform in PATTERNS:
         is_match = is_platform(href, platform)
         if is_match:
@@ -132,16 +145,19 @@ def get_platform(href: str) -> str | None:
 
 
 def is_platform(href: str, platform: str) -> bool:
+    """Check if URL belongs to a platform (legacy function)."""
     if platform not in PATTERNS:
         raise RuntimeError(ERROR_MSG_UNKNOWN_PLATFORM)
     return any(re.match(p, href) for p in PATTERNS[platform])
 
 
 def clean_mailto(href: str) -> str:
+    """Strip mailto: prefix from email URLs."""
     return href.replace("mailto:", "")
 
 
 def get_cleaner(platform: str) -> Callable[[str], str] | None:
+    """Get cleaner function for a platform."""
     cleaners: dict[str, Callable[[str], str]] = {
         PLATFORM_EMAIL: clean_mailto,
     }

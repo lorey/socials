@@ -26,6 +26,7 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
+    "pydantic>=2.0",
     "typer>=0.9",
 ]
 
@@ -62,17 +63,22 @@ target-version = "py39"
 line-length = 88
 
 [tool.ruff.lint]
-select = [
-    "E",      # pycodestyle errors
-    "W",      # pycodestyle warnings
-    "F",      # pyflakes
-    "I",      # isort
-    "B",      # flake8-bugbear
-    "C4",     # flake8-comprehensions
-    "UP",     # pyupgrade
-]
+select = ["ALL"]
 ignore = [
     "B008",   # function call in default arg (required for typer)
+    "D203",   # conflicts with D211 (no blank line before class)
+    "D213",   # conflicts with D212 (multi-line summary first line)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "S101",    # assert is fine in tests
+    "INP001",  # tests don't need __init__.py
+    "PLR2004", # magic values are fine in tests
+    "ANN",     # type annotations not required in tests
+]
+"socials/cli.py" = [
+    "FBT001",  # typer requires boolean positional args
 ]
 
 [tool.ruff.lint.isort]

@@ -1,5 +1,7 @@
 """Tests for `socials` package."""
 
+import warnings
+
 from typer.testing import CliRunner
 
 import socials
@@ -45,7 +47,10 @@ def test_cli_extract():
 
 
 def test_extract():
-    """Test the extract method."""
+    """Test the extract method with deprecated 0.x API."""
+    # Suppress deprecation warnings for this test since we're testing legacy API
+    warnings.filterwarnings("ignore", category=DeprecationWarning)
+
     urls = [
         "http://google.de",
         "http://facebook.com",
