@@ -1,21 +1,14 @@
-# Socials
+# socials
 
 [![PyPI](https://img.shields.io/pypi/v/socials.svg)](https://pypi.python.org/pypi/socials)
 [![CI](https://github.com/lorey/socials/actions/workflows/ci.yml/badge.svg)](https://github.com/lorey/socials/actions/workflows/ci.yml)
 [![Documentation](https://readthedocs.org/projects/socials/badge/?version=latest)](https://socials.readthedocs.io/en/latest/?badge=latest)
 
-Social Account Detection and Extraction for Python
+Turn URLs into structured social media profiles.
 
-- Free software: GNU General Public License v3
-- Documentation: https://socials.readthedocs.io
-- Source: https://github.com/lorey/socials
-
-## Features
-
-- Parse social URLs into typed objects with extracted fields (username, repo, etc.)
-- Supports Facebook, Twitter/X, LinkedIn, GitHub, Instagram, YouTube, email, and phone
-- Navigate URL hierarchies (e.g., repo -> profile)
-- Filter and group results by platform or entity type
+You have a list of URLs from a scrape, a CSV export, or email signatures.
+Some of them are social media profiles.
+Socials finds them and gives you structured data to work with.
 
 ## Installation
 
@@ -23,124 +16,172 @@ Social Account Detection and Extraction for Python
 pip install socials
 ```
 
-Or with [uv](https://docs.astral.sh/uv/):
-
-```bash
-uv add socials
-```
-
-## Usage
-
-### Parse a single URL
+## Quick Example
 
 ```python
 import socials
 
-result = socials.parse("https://github.com/lorey/socials")
-result.platform      # "github"
-result.entity_type   # "repo"
-result.owner         # "lorey"
-result.repo          # "socials"
+# Parse a single URL
+repo = socials.parse("https://github.com/lorey/socials")
+print(repo)
+# GitHubRepoURL(owner='lorey', repo='socials')
+
+print(repo.platform)
+# 'github'
+
+print(repo.owner)
+# 'lorey'
+
+# Parse multiple URLs at once
+urls = ["https://github.com/lorey", "https://twitter.com/karllorey", "https://example.com"]
+result = socials.parse_all(urls)
+
+print(result.all())
+# [GitHubProfileURL(username='lorey'), TwitterProfileURL(username='karllorey')]
+
+print(result.by_platform())
+# {'github': [...], 'twitter': [...]}
 ```
 
-### Navigate hierarchies
+## Why socials?
+
+**Structured data, not strings.**
+You get typed Python objects with extracted fields like `username`, `repo`, or `company`.
+Not just a matched URL string.
+
+**Handles the edge cases.**
+With or without `www`. Trailing slashes or not. Old URL formats.
+Mobile URLs. Socials normalizes them all.
+
+**Comprehensive platform coverage.**
+8 platforms with multiple entity types each. Profiles, repos, companies, channels.
+Continuously updated as platforms change their URL formats.
+
+**Extensible.**
+Need to support an internal tool or a platform we don't cover?
+Register your own parser and it works with the same API.
+
+**Built for messy real-world data.**
+Lenient by default. Unknown URLs return `None` instead of crashing.
+Strict mode available when you need validation.
+
+**Type-safe with IDE support.**
+Full type hints. Autocomplete works. Catch bugs before runtime.
+
+## Features
+
+### Typed URL Objects
+
+Each parsed URL is a typed object with platform-specific fields:
 
 ```python
-result = socials.parse("https://github.com/lorey/socials")
-parent = result.get_parent()  # GitHubProfileURL for the owner
-parent.username  # "lorey"
+import socials
+
+company = socials.parse("https://linkedin.com/company/acme-corp")
+print(company)
+# LinkedInCompanyURL(company_name='acme-corp')
+
+print(company.platform)
+# 'linkedin'
+
+print(company.entity_type)
+# 'company'
 ```
 
-### Extract from multiple URLs
+### Hierarchy Navigation
+
+Navigate from a repo to its owner, or from any URL to its root:
 
 ```python
-urls = [
-    "https://github.com/lorey",
-    "https://twitter.com/karllorey",
-    "mailto:test@example.com",
-    "https://example.com",  # ignored
-]
+import socials
 
-extraction = socials.extract(urls)
-extraction.all()          # list of all parsed URLs
-extraction.by_platform()  # {'github': [...], 'twitter': [...], 'email': [...]}
-extraction.by_type()      # {'profile': [...], 'email': [...]}
+repo = socials.parse("https://github.com/lorey/socials")
+print(repo.get_parent())
+# GitHubProfileURL(username='lorey')
 ```
 
-### Custom extractor with platform filtering
+### Batch Extraction
+
+Parse many URLs at once and group the results:
 
 ```python
-# Only extract GitHub and Twitter URLs
-ext = socials.Extractor(platforms=["github", "twitter"])
-ext.parse("https://github.com/lorey")  # works
-ext.parse("mailto:test@example.com")   # returns None
+import socials
 
-# Strict mode - raise error for unknown URLs
-ext = socials.Extractor(strict=True)
-ext.parse("https://unknown.com")  # raises ParseError
+urls = ["https://github.com/lorey", "https://twitter.com/karllorey"]
+result = socials.parse_all(urls)
+
+result.all()
+# list of all parsed URLs
+
+result.by_platform()
+# {'github': [...], 'twitter': [...]}
+
+result.by_type()
+# {'profile': [...]}
+```
+
+### Platform Filtering
+
+Only extract what you need:
+
+```python
+import socials
+
+extractor = socials.Extractor(platforms=["github", "linkedin"])
+print(extractor.parse("https://twitter.com/someone"))
+# None
 ```
 
 ### CLI
 
-```bash
-# Check which platform a URL belongs to
-socials check https://github.com/lorey
-# github
+Process URLs from files or stdin:
 
-# Extract social URLs from a file
+```bash
+# Check a single URL
+socials check https://github.com/lorey
+
+# Extract from a file
 socials extract urls.txt
 
-# Extract from stdin
-echo "https://github.com/lorey" | socials extract
+# Pipe from another command
+cat links.txt | socials extract
 ```
 
 ## Supported Platforms
 
-| Platform | Entity Types |
-|----------|--------------|
-| GitHub | profile, repo |
-| Twitter/X | profile |
-| LinkedIn | profile, company |
-| Facebook | profile |
-| Instagram | profile |
-| YouTube | channel |
-| Email | email |
-| Phone | phone |
+| Platform   | Entity Types     | Example Fields          |
+|------------|------------------|-------------------------|
+| GitHub     | profile, repo    | username, owner, repo   |
+| Twitter/X  | profile          | username                |
+| LinkedIn   | profile, company | username, company_name  |
+| Facebook   | profile          | username                |
+| Instagram  | profile          | username                |
+| YouTube    | channel          | channel_id, username    |
+| Email      | email            | email                   |
+| Phone      | phone            | phone                   |
 
-## Migrating from 0.x
+## Use Cases
 
-The 0.x API still works but is deprecated:
+- **Extract**: Pull social profiles from scraped pages, contact lists, or email signatures
+- **Validate**: Check if URLs are recognized social profiles (use strict mode)
+- **Normalize**: Get consistent usernames from messy URL variations
+- **Categorize**: Group URLs by platform or entity type (profile, repo, company)
+- **Automate**: Batch process URL files via CLI, integrate into pipelines
 
-```python
-# Old API (deprecated)
-extraction.get_matches_per_platform()  # returns dict[str, list[str]]
-extraction.get_matches_for_platform("github")
+## Documentation
 
-# New API (1.0+)
-extraction.by_platform()  # returns dict[str, list[SocialsURL]]
-extraction.all()          # returns list[SocialsURL]
-```
+Full docs at [socials.readthedocs.io](https://socials.readthedocs.io)
 
-## Socials API
+- [Getting Started](https://socials.readthedocs.io/getting-started/) - Tutorial with examples
+- [CLI Reference](https://socials.readthedocs.io/cli/) - Command-line usage
+- [API Reference](https://socials.readthedocs.io/reference/) - Full API docs
+- [Architecture](https://socials.readthedocs.io/architecture/) - How it works
 
-There's also [Socials API](https://github.com/lorey/socials-api) that allows you to use the functionality via REST.
-You can use a [free online version](https://socials.karllorey.com), try it in the browser, or deploy it yourself.
+## Related
 
-## Development
+[Socials API](https://github.com/lorey/socials-api) - REST API wrapper.
+[Free hosted version](https://socials.karllorey.com) available.
 
-```bash
-# Clone and install
-git clone https://github.com/lorey/socials
-cd socials
-uv sync --extra dev
+## License
 
-# Run tests
-uv run pytest
-
-# Run linting
-uv run ruff check .
-uv run mypy socials
-
-# Format code
-uv run ruff format .
-```
+GNU General Public License v3
