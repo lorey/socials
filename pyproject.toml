@@ -76,6 +76,7 @@ ignore = [
     "INP001",  # tests don't need __init__.py
     "PLR2004", # magic values are fine in tests
     "ANN",     # type annotations not required in tests
+    "D",       # docstrings not required in tests
 ]
 "socials/cli.py" = [
     "FBT001",  # typer requires boolean positional args
@@ -104,3 +105,8 @@ warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
+
+[[tool.mypy.overrides]]
+module = "socials.platforms.*"
+# Pydantic Literal types + regex groupdict() triggers false positives
+disable_error_code = ["arg-type"]
