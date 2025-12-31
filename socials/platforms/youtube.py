@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, ClassVar, Literal
+from typing import TYPE_CHECKING, ClassVar, Literal, Optional
 
 from pydantic import BaseModel
 
@@ -40,9 +40,9 @@ class YouTubeChannelURL(BaseModel, frozen=True):
     url: str
     platform: Literal["youtube"] = "youtube"
     entity_type: Literal["channel"] = "channel"
-    channel_id: str | None = None
-    username: str | None = None
-    custom_url: str | None = None
+    channel_id: Optional[str] = None
+    username: Optional[str] = None
+    custom_url: Optional[str] = None
 
     def __hash__(self) -> int:
         """Return hash based on URL."""

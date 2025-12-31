@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, ClassVar, Literal
+from typing import TYPE_CHECKING, ClassVar, Literal, Optional
 
 from pydantic import BaseModel
 
@@ -28,8 +28,8 @@ class FacebookProfileURL(BaseModel, frozen=True):
     url: str
     platform: Literal["facebook"] = "facebook"
     entity_type: Literal["profile"] = "profile"
-    username: str | None = None
-    user_id: str | None = None
+    username: Optional[str] = None
+    user_id: Optional[str] = None
 
     def __hash__(self) -> int:
         """Return hash based on URL."""
