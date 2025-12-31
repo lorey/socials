@@ -1,51 +1,75 @@
-# Socials
+# socials
 
-Social Account Detection and Extraction for Python.
+Turn URLs into structured social media profiles.
 
-## Installation
+You have a list of URLs from a scrape, a CSV export, or email signatures.
+Some of them are social media profiles.
+Socials finds them and gives you structured data to work with.
+
+## Quick Start
 
 ```bash
 pip install socials
 ```
 
-Or with [uv](https://docs.astral.sh/uv/):
-
-```bash
-uv add socials
-```
-
-## Quick Start
-
 ```python
 import socials
 
-hrefs = [
-    "https://facebook.com/peterparker",
-    "https://techcrunch.com",
-    "https://github.com/lorey",
-]
+repo = socials.parse("https://github.com/lorey/socials")
+print(repo)
+# GitHubRepoURL(owner='lorey', repo='socials')
 
-# Get all matches grouped by platform
-results = socials.extract(hrefs).get_matches_per_platform()
-# {'facebook': ['https://facebook.com/peterparker'], 'github': ['https://github.com/lorey'], ...}
+print(repo.platform)
+# 'github'
 
-# Get matches for a specific platform
-github_urls = socials.extract(hrefs).get_matches_for_platform("github")
-# ['https://github.com/lorey']
+print(repo.owner)
+# 'lorey'
 ```
 
 ## Supported Platforms
 
-- Facebook
-- Twitter
-- LinkedIn
-- GitHub
-- Instagram
-- YouTube
-- Email addresses
+| Platform   | Entity Types     | Example URL                          |
+|------------|------------------|--------------------------------------|
+| GitHub     | profile, repo    | github.com/lorey/socials             |
+| Twitter/X  | profile          | twitter.com/karllorey                |
+| LinkedIn   | profile, company | linkedin.com/in/karllorey            |
+| Facebook   | profile          | facebook.com/zuck                    |
+| Instagram  | profile          | instagram.com/instagram              |
+| YouTube    | channel          | youtube.com/c/GoogleDevelopers       |
+| Email      | email            | mailto:hello@example.com             |
+| Phone      | phone            | tel:+1234567890                      |
+
+## What You Get
+
+Each URL is parsed into a typed Python object:
+
+- `platform` - Which social network
+- `entity_type` - Profile, repo, company, etc.
+- Platform-specific fields like `username`, `repo`, `company_name`
+
+No regex. No string parsing. Just data.
+
+## Next Steps
+
+- [Getting Started](getting-started.md) - Full tutorial with real-world examples
+- [CLI Reference](cli.md) - Process URLs from the command line
+- [API Reference](reference.md) - Full API documentation
+
+### Architecture
+
+- [Overview](architecture.md) - How socials works
+- [Parsers](parsers.md) - Platform-specific URL parsers
+- [Registry](registry.md) - URL routing
+- [URLs](urls.md) - Typed URL objects
+- [Extraction](extraction.md) - Extractor and results
+
+## Related Projects
+
+- [Socials API](https://github.com/lorey/socials-api) - REST API wrapper for socials
+- [Social Media Profiles Regexs](https://github.com/lorey/social-media-profiles-regexs) - Regex collection for social media URL detection
 
 ## Links
 
 - [Source Code](https://github.com/lorey/socials)
 - [PyPI](https://pypi.org/project/socials/)
-- [Socials API](https://github.com/lorey/socials-api) - REST API wrapper
+- [Changelog](changelog.md)

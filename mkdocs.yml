@@ -8,12 +8,32 @@ theme:
   palette:
     primary: indigo
 
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: true
+            show_root_heading: true
+            heading_level: 2
+
 nav:
   - Home: index.md
+  - Getting Started: getting-started.md
+  - Reference: reference.md
+  - Architecture:
+    - Overview: architecture.md
+    - Parsers: parsers.md
+    - Registry: registry.md
+    - URLs: urls.md
+    - Extraction: extraction.md
   - CLI: cli.md
-  - API: api.md
+  - Contributing: contributing.md
   - Changelog: changelog.md
 
 markdown_extensions:
   - pymdownx.highlight
   - pymdownx.superfences
+  - toc:
+      toc_depth: 3

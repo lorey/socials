@@ -1,12 +1,15 @@
 # CLI Reference
 
-Socials provides a command-line interface for quick URL checking and extraction.
+The `socials` CLI processes URLs from files or stdin.
+Useful for batch processing, shell scripts, and pipeline integration.
+
+After installing socials, the `socials` command is available in your terminal.
 
 ## Commands
 
 ### check
 
-Check which platform a URL belongs to.
+Identify what platform a URL belongs to:
 
 ```bash
 socials check <url>
@@ -29,7 +32,7 @@ Returns exit code 1 if the URL doesn't match any known platform.
 
 ### extract
 
-Extract social media URLs from input.
+Extract social profiles from URLs:
 
 ```bash
 socials extract [file]
@@ -57,6 +60,27 @@ https://github.com/lorey
 **Options:**
 
 - `-p, --platform`: Filter results to a specific platform
+
+## Pipeline Examples
+
+The CLI works well with other Unix tools:
+
+```bash
+# Filter for specific platforms with jq
+cat urls.txt | socials extract | jq '.[] | select(.platform == "linkedin")'
+
+# Count profiles by platform
+cat urls.txt | socials extract | jq 'group_by(.platform) | map({platform: .[0].platform, count: length})'
+
+# Extract just usernames
+cat urls.txt | socials extract | jq -r '.[] | .username // .company_name // .email'
+
+# Pre-filter URLs before processing
+grep -h "linkedin\|twitter\|github" scraped_data.txt | socials extract
+
+# Save results to a file
+socials extract urls.txt > profiles.json
+```
 
 ## Global Options
 
