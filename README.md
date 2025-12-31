@@ -4,11 +4,21 @@
 [![CI](https://github.com/lorey/socials/actions/workflows/ci.yml/badge.svg)](https://github.com/lorey/socials/actions/workflows/ci.yml)
 [![Documentation](https://readthedocs.org/projects/socials/badge/?version=latest)](https://socials.readthedocs.io/en/latest/?badge=latest)
 
-Turn URLs into structured social media profiles.
+[Documentation](https://socials.readthedocs.io) | [Source Code](https://github.com/lorey/socials)
+
+Python library and CLI to turn URLs into structured social media profiles.
 
 You have a list of URLs from a scrape, a CSV export, or email signatures.
 Some of them are social media profiles.
 Socials finds them and gives you structured data to work with.
+
+| | |
+|---|---|
+| :mag: **Extract** | Pull social profiles from scraped pages or contact lists |
+| :white_check_mark: **Validate** | Check if URLs are recognized social profiles |
+| :arrows_counterclockwise: **Normalize** | Get consistent usernames from messy URL variations |
+| :card_file_box: **Categorize** | Group URLs by platform or entity type |
+| :robot: **Automate** | Batch process URL files via CLI |
 
 ## Installation
 
@@ -45,28 +55,12 @@ print(result.by_platform())
 
 ## Why socials?
 
-**Structured data, not strings.**
-You get typed Python objects with extracted fields like `username`, `repo`, or `company`.
-Not just a matched URL string.
-
-**Handles the edge cases.**
-With or without `www`. Trailing slashes or not. Old URL formats.
-Mobile URLs. Socials normalizes them all.
-
-**Comprehensive platform coverage.**
-8 platforms with multiple entity types each. Profiles, repos, companies, channels.
-Continuously updated as platforms change their URL formats.
-
-**Extensible.**
-Need to support an internal tool or a platform we don't cover?
-Register your own parser and it works with the same API.
-
-**Built for messy real-world data.**
-Lenient by default. Unknown URLs return `None` instead of crashing.
-Strict mode available when you need validation.
-
-**Type-safe with IDE support.**
-Full type hints. Autocomplete works. Catch bugs before runtime.
+- **Structured data, not strings.** You get typed Python objects with extracted fields like `username`, `repo`, or `company`. Not just a matched URL string.
+- **Handles the edge cases.** With or without `www`. Trailing slashes or not. Old URL formats. Mobile URLs. Socials normalizes them all.
+- **Comprehensive platform coverage.** 8 platforms with multiple entity types each. Profiles, repos, companies, channels. Continuously updated as platforms change their URL formats.
+- **Extensible.** Need to support an internal tool or a platform we don't cover? Register your own parser and it works with the same API.
+- **Built for messy real-world data.** Lenient by default. Unknown URLs return `None` instead of crashing. Strict mode available when you need validation.
+- **Type-safe with IDE support.** Full type hints. Autocomplete works. Catch bugs before runtime.
 
 ## Features
 
@@ -132,21 +126,6 @@ print(extractor.parse("https://twitter.com/someone"))
 # None
 ```
 
-### CLI
-
-Process URLs from files or stdin:
-
-```bash
-# Check a single URL
-socials check https://github.com/lorey
-
-# Extract from a file
-socials extract urls.txt
-
-# Pipe from another command
-cat links.txt | socials extract
-```
-
 ## Supported Platforms
 
 | Platform   | Entity Types     | Example Fields          |
@@ -160,13 +139,37 @@ cat links.txt | socials extract
 | Email      | email            | email                   |
 | Phone      | phone            | phone                   |
 
-## Use Cases
+Missing a platform? [Open an issue](https://github.com/lorey/socials/issues) or submit a PR!
 
-- **Extract**: Pull social profiles from scraped pages, contact lists, or email signatures
-- **Validate**: Check if URLs are recognized social profiles (use strict mode)
-- **Normalize**: Get consistent usernames from messy URL variations
-- **Categorize**: Group URLs by platform or entity type (profile, repo, company)
-- **Automate**: Batch process URL files via CLI, integrate into pipelines
+## CLI
+
+The CLI lets you process URLs directly from the command line. Run it with `uvx` (no install needed) or install globally with `pip install socials`.
+
+```
+$ uvx socials --help
+
+Usage: socials [OPTIONS] COMMAND [ARGS]...
+
+ Extract social media profile URLs from a list of URLs.
+
+╭─ Commands ───────────────────────────────────────────────────────────────────╮
+│ extract   Extract social media URLs from input.                              │
+│ check     Check which platform a URL belongs to.                             │
+╰──────────────────────────────────────────────────────────────────────────────╯
+```
+
+Examples:
+
+```bash
+# Check a single URL
+socials check https://github.com/lorey
+
+# Extract from a file
+socials extract urls.txt
+
+# Pipe from another command
+cat links.txt | socials extract
+```
 
 ## Documentation
 
