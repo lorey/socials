@@ -12,8 +12,10 @@ Social Account Detection and Extraction for Python
 
 ## Features
 
-- Detect and extract URLs of social accounts: throw in URLs, get back URLs of social media profiles by type.
-- Supports Facebook, Twitter, LinkedIn, GitHub, Instagram, YouTube, and email addresses.
+- Parse social URLs into typed objects with extracted fields (username, repo, etc.)
+- Supports Facebook, Twitter/X, LinkedIn, GitHub, Instagram, YouTube, email, and phone
+- Navigate URL hierarchies (e.g., repo -> profile)
+- Filter and group results by platform or entity type
 
 ## Installation
 
@@ -29,24 +31,53 @@ uv add socials
 
 ## Usage
 
-### Python API
+### Parse a single URL
 
 ```python
 import socials
 
-hrefs = [
-    "https://facebook.com/peterparker",
-    "https://techcrunch.com",
+result = socials.parse("https://github.com/lorey/socials")
+result.platform      # "github"
+result.entity_type   # "repo"
+result.owner         # "lorey"
+result.repo          # "socials"
+```
+
+### Navigate hierarchies
+
+```python
+result = socials.parse("https://github.com/lorey/socials")
+parent = result.get_parent()  # GitHubProfileURL for the owner
+parent.username  # "lorey"
+```
+
+### Extract from multiple URLs
+
+```python
+urls = [
     "https://github.com/lorey",
+    "https://twitter.com/karllorey",
+    "mailto:test@example.com",
+    "https://example.com",  # ignored
 ]
 
-# Get all matches grouped by platform
-socials.extract(hrefs).get_matches_per_platform()
-# {'facebook': ['https://facebook.com/peterparker'], 'github': ['https://github.com/lorey'], ...}
+extraction = socials.extract(urls)
+extraction.all()          # list of all parsed URLs
+extraction.by_platform()  # {'github': [...], 'twitter': [...], 'email': [...]}
+extraction.by_type()      # {'profile': [...], 'email': [...]}
+```
 
-# Get matches for a specific platform
-socials.extract(hrefs).get_matches_for_platform("github")
-# ['https://github.com/lorey']
+### Custom extractor with platform filtering
+
+```python
+# Only extract GitHub and Twitter URLs
+ext = socials.Extractor(platforms=["github", "twitter"])
+ext.parse("https://github.com/lorey")  # works
+ext.parse("mailto:test@example.com")   # returns None
+
+# Strict mode - raise error for unknown URLs
+ext = socials.Extractor(strict=True)
+ext.parse("https://unknown.com")  # raises ParseError
 ```
 
 ### CLI
@@ -61,6 +92,33 @@ socials extract urls.txt
 
 # Extract from stdin
 echo "https://github.com/lorey" | socials extract
+```
+
+## Supported Platforms
+
+| Platform | Entity Types |
+|----------|--------------|
+| GitHub | profile, repo |
+| Twitter/X | profile |
+| LinkedIn | profile, company |
+| Facebook | profile |
+| Instagram | profile |
+| YouTube | channel |
+| Email | email |
+| Phone | phone |
+
+## Migrating from 0.x
+
+The 0.x API still works but is deprecated:
+
+```python
+# Old API (deprecated)
+extraction.get_matches_per_platform()  # returns dict[str, list[str]]
+extraction.get_matches_for_platform("github")
+
+# New API (1.0+)
+extraction.by_platform()  # returns dict[str, list[SocialsURL]]
+extraction.all()          # returns list[SocialsURL]
 ```
 
 ## Socials API
