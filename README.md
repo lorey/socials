@@ -12,11 +12,13 @@ You have a list of URLs from a scrape, a CSV export, or email signatures.
 Some of them are social media profiles.
 Socials finds them and gives you structured data to work with.
 
-:mag: **Extract** social profiles from scraped pages or contact lists
-:white_check_mark: **Validate** URLs as recognized social profiles
-:arrows_counterclockwise: **Normalize** messy URL variations to consistent usernames
-:card_file_box: **Categorize** URLs by platform or entity type
-:robot: **Automate** batch processing via CLI
+| | |
+|---|---|
+| :mag: **Extract** | Pull social profiles from scraped pages or contact lists |
+| :white_check_mark: **Validate** | Check if URLs are recognized social profiles |
+| :arrows_counterclockwise: **Normalize** | Get consistent usernames from messy URL variations |
+| :card_file_box: **Categorize** | Group URLs by platform or entity type |
+| :robot: **Automate** | Batch process URL files via CLI |
 
 ## Installation
 
