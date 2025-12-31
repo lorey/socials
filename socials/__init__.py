@@ -5,6 +5,7 @@ Social Account Detection and Extraction for Python.
 
 from __future__ import annotations
 
+import warnings
 from importlib.metadata import version
 
 from socials.extractor import Extraction, Extractor
@@ -25,18 +26,18 @@ def parse(url: str) -> SocialsURL | None:
     Returns:
         Parsed SocialsURL object, or None if not recognized.
 
-    Example:
-        >>> result = socials.parse("https://github.com/lorey/socials")
-        >>> result.platform
-        'github'
-        >>> result.entity_type
-        'repo'
+    Examples:
+        ```python
+        result = socials.parse("https://github.com/lorey/socials")
+        result.platform     # "github"
+        result.entity_type  # "repo"
+        ```
 
     """
     return _default_extractor.parse(url)
 
 
-def extract(urls: list[str]) -> Extraction:
+def parse_all(urls: list[str]) -> Extraction:
     """Parse multiple URLs and return an Extraction result.
 
     Args:
@@ -45,12 +46,34 @@ def extract(urls: list[str]) -> Extraction:
     Returns:
         Extraction object with helper methods for grouping/filtering.
 
-    Example:
-        >>> extraction = socials.extract(urls)
-        >>> extraction.by_platform()
-        {'github': [...], 'twitter': [...]}
+    Examples:
+        ```python
+        extraction = socials.parse_all(urls)
+        extraction.by_platform()  # {"github": [...], "twitter": [...]}
+        ```
 
     """
+    return _default_extractor.extract(urls)
+
+
+def extract(urls: list[str]) -> Extraction:
+    """Parse multiple URLs and return an Extraction result.
+
+    .. deprecated:: 1.0
+        Use :func:`parse_all` instead.
+
+    Args:
+        urls: List of URLs to parse.
+
+    Returns:
+        Extraction object with helper methods for grouping/filtering.
+
+    """
+    warnings.warn(
+        "extract() is deprecated, use parse_all() instead",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     return _default_extractor.extract(urls)
 
 
@@ -64,6 +87,7 @@ __all__ = [
     # Metadata
     "__version__",
     # Functions
-    "extract",
+    "extract",  # deprecated
     "parse",
+    "parse_all",
 ]
