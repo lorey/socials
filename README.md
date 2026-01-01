@@ -22,9 +22,17 @@ Socials finds them and gives you structured data to work with.
 
 ## Installation
 
-```bash
-pip install socials
-```
+> **Note:** This README documents the upcoming 1.0 release.
+> To try it, install with pre-release support:
+> ```bash
+> pip install --pre socials
+> # or
+> uv add --pre socials
+> ```
+> Feedback welcome at [GitHub Issues](https://github.com/lorey/socials/issues).
+>
+> For the current stable version (0.3.x), use `pip install socials` and see the
+> [v0.3.0 documentation](https://github.com/lorey/socials/tree/v0.3.0).
 
 ## Quick Example
 
