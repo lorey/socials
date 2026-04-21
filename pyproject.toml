@@ -79,6 +79,11 @@ ignore = [
     "ANN",     # type annotations not required in tests
     "D",       # docstrings not required in tests
 ]
+"conftest.py" = [
+    "ANN",     # type annotations not required for monkey-patch
+    "TD",      # TODO format rules - upstream issue linked in comment
+    "FIX",     # allow TODO for upstream fix
+]
 "socials/cli.py" = [
     "FBT001",  # typer requires boolean positional args
     "UP045",   # Typer needs Optional[X] for Python 3.9 runtime evaluation
@@ -92,7 +97,7 @@ known-first-party = ["socials"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests", "docs", "."]
-addopts = "-v --tb=short --markdown-docs"
+addopts = "--tb=short --markdown-docs -q"
 
 [tool.coverage.run]
 source = ["socials"]

@@ -17,20 +17,6 @@ class TestModuleLevelFunctions:
         result = socials.parse("https://unknown.com/page")
         assert result is None
 
-    def test_extract_function(self):
-        result = socials.extract(["https://github.com/lorey"])
-        assert isinstance(result, Extraction)
-        assert len(result.all()) == 1
-
-    def test_extract_multiple_urls(self):
-        result = socials.extract(
-            [
-                "https://github.com/lorey",
-                "https://twitter.com/karllorey",
-            ],
-        )
-        assert len(result.all()) == 2
-
 
 class TestExports:
     def test_version_exists(self):
@@ -82,7 +68,7 @@ class TestIntegration:
             "https://unknown.com/page",  # Should be filtered
         ]
 
-        extraction = socials.extract(urls)
+        extraction = socials.parse_all(urls)
 
         # Should have 3 valid results
         assert len(extraction.all()) == 3

@@ -152,31 +152,6 @@ socials.parse_all(["https://github.com/lorey"])
 # Parse multiple URLs
 ```
 
-## Legacy API (0.x Compatibility)
+## Legacy API
 
-For backwards compatibility with 0.x, the following are deprecated:
-
-**Deprecated module function:**
-```python
-import socials
-
-# Deprecated - use parse_all() instead
-socials.extract(["https://github.com/lorey"])
-```
-
-**Deprecated Extraction methods** (return URL strings instead of typed objects):
-```python
-import socials
-
-extraction = socials.parse_all(["https://github.com/lorey"])
-
-# Deprecated (returns strings)
-extraction.get_matches_per_platform()
-extraction.get_matches_for_platform("github")
-
-# Use instead (returns typed objects)
-extraction.by_platform()
-extraction.by_platform()["github"]
-```
-
-These methods emit deprecation warnings and will be removed in a future version.
+For migration from 0.x, see [Migration Guide](migration.md).

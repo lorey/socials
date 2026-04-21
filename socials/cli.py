@@ -66,7 +66,7 @@ def extract(
         lines = file.read().strip().split("\n")
 
     urls = [line.strip() for line in lines if line.strip()]
-    extraction = socials.extract(urls)
+    extraction = socials.parse_all(urls)
 
     if platform:
         if platform not in AVAILABLE_PLATFORMS:
